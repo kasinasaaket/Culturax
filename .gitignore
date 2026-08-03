@@ -1,0 +1,83 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+
+# ==========================
+# Jupyter Notebook
+# ==========================
+.ipynb_checkpoints/
+
+# ==========================
+# Virtual Environments
+# ==========================
+venv/
+.venv/
+env/
+ENV/
+
+# ==========================
+# IDE Settings
+# ==========================
+.vscode/
+.idea/
+
+# ==========================
+# Environment Variables
+# ==========================
+.env
+
+# ==========================
+# Logs
+# ==========================
+*.log
+logs/
+
+# ==========================
+# Large Datasets
+# ==========================
+data/
+dataset/
+datasets/
+*.arrow
+*.parquet
+
+# ==========================
+# Model Checkpoints
+# ==========================
+checkpoints/
+checkpoint/
+models/
+saved_models/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# ==========================
+# Hugging Face Cache
+# ==========================
+.cache/
+huggingface/
+hf_cache/
+
+# ==========================
+# TensorBoard
+# ==========================
+runs/
+events.out.tfevents.*
+
+# ==========================
+# Temporary Files
+# ==========================
+*.tmp
+*.bak
+
+# ==========================
+# Operating System Files
+# ==========================
+.DS_Store
+Thumbs.db
+desktop.ini
