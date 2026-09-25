@@ -42,31 +42,13 @@ The dataset is partitioned into K stages. As training epochs cross defined loss-
 
 The structural layout of the custom mini-transformer is built to control token-embedding blowup while keeping multi-head representations rich: 
 
-Component / LayerArchitectural SpecificationAcademic Justification
-****Model Type****
-Transformer EncoderBidirectional contextual extraction
-****Embedding Dimension (
-
-dmodeld sub model end-sub
-𝑑model
-)****
-*e.g., 256 / 512*Prevents over-parameterization
-****Feed-Forward Network (
-
-dffd sub ff end-sub
-𝑑ff
-)****
-*e.g., 1024 / 2048*Maintains non-linear projection capability
-****Attention Heads (
-
-nheadsn sub heads end-sub
-𝑛heads
-)****
-*e.g., 8*Sub-space tracking across diverse language sets
-****Encoder Layers (N)****
-*e.g., 6*Balances deep representation vs memory footprint
-****Vocabulary Bounds****
-*e.g., 32,000 / 52,000*Constrains the heavy weight of the token embedding layer
+Component / Layer                Architectural Specification       Academic Justification
+Model Type                       Transformer Encoder               Bidirectional contextual extraction
+Embedding Dimension (dmodel)     e.g., 256 / 512                   Prevents over-parameterization
+Feed-Forward Network (dff)       e.g., 1024 / 2048                 Maintains non-linear projection capability
+Attention Heads (nheads)         e.g., 8                           Sub-space tracking across diverse language sets
+Encoder Layers (N)               e.g., 6                           Balances deep representation vs memory footprint
+Vocabulary Bounds                e.g., 32,000 / 52,000             Constrains the heavy weight of the token embedding layer
 
 ### 🌍 Data Footprint (CulturaX Subset)
 
