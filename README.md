@@ -63,18 +63,19 @@ The training partition is built from high-quality deduplicated subsets extracted
 
 ### 📂 4. System Architecture & Repository Layout
 
-text
-
+```text
 Resource-Constrained-Multilingual-Representation-Learning/
-├── notebooks/                # Exploratory Data Analysis & pilot scaling tests
-├── preprocessing/            # PyArrow & Parquet pipeline for text cleaning and Unicode handling
-├── tokenizer/                # Custom subword tokenizer build scripts & vocab artifacts
-├── curriculum_learning/      # Algorithmic difficulty scoring matrices & scheduling modules
-├── transformer/              # Native PyTorch module blocks (Attention, FFN, EncoderLayer)
-├── training/                 # MLM loop, optimization scheduling, and gradient management
-├── evaluation/               # Validation scripts, embedding geometry, and downstream probes
-├── requirements.txt          # Explicit package version lockfile
-└── README.md                 # Project documentation
+├── notebooks/            # Exploratory Data Analysis & pilot scaling tests
+├── preprocessing/        # PyArrow & Parquet pipeline for text cleaning and Unicode handling
+├── tokenizer/            # Custom subword tokenizer build scripts & vocab artifacts
+├── curriculum_learning/  # Algorithmic difficulty scoring matrices & scheduling modules
+├── transformer/          # Native PyTorch module blocks (Attention, FFN, EncoderLayer)
+├── training/             # MLM loop, optimization scheduling, and gradient management
+├── evaluation/           # Validation scripts, embedding geometry, and downstream probes
+├── requirements.txt      # Explicit package version lockfile
+└── README.md             # Project documentation
+```
+
 
 Use code with caution.
 
