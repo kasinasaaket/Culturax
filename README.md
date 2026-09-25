@@ -19,8 +19,8 @@ We design, implement, and train a lightweight **Transformer Encoder architecture
 The core self-supervised objective follows a strict bidirectional token prediction framework. Given a multilingual sequence 
 𝑋 = (𝑥1, 𝑥2, …, 𝑥𝑛), a subset of tokens Y ⊂ X is replaced with a special [MASK] token (15% corruption rate). The objective function minimizes the cross-entropy loss over the masked positions: 
 
-ℒMLM(𝜃)=−𝑖∈𝑌log𝑃(𝑥𝑖∣𝑋∖𝑌;𝜃)
- 
+$$\mathcal{L}_{\text{MLM}}(\theta) = - \sum_{i \in Y} \log P(x_i \mid X_{\setminus Y}; \theta)$$
+
 
 ### 🔹 B. Curriculum Learning Framework
 
