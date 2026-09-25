@@ -1,394 +1,231 @@
-**# 🌍 Resource-Constrained Multilingual Representation Learning using a Custom Transformer on CulturaX**
+### Resource-Constrained Multilingual Representation Learning via Custom Lightweight Transformer Architectures on the CulturaX Corpus
 
+### 📌 1. Project Abstract & Overview
 
+This repository contains the complete, end-to-end implementation and empirical validation framework for my **MTech Major Thesis Project**. This work addresses the challenge of pretraining robust multilingual language models within highly **resource-constrained computational environments**, eliminating the dependency on massive, compute-prohibitive infrastructure. 
 
-**## 📌 Project Overview**
+We design, implement, and train a lightweight **Transformer Encoder architecture from scratch** on a strategically balanced multi-lingual subset of the **CulturaX corpus**. To optimize convergence speed, mitigate gradient instability, and maximize representation quality under tight hardware ceilings, the training lifecycle combines **Masked Language Modeling (MLM)** with a formal **Curriculum Learning** data-scheduling framework. Rather than exposing the network to uniform data complexity randomly, text sequences are dynamically scheduled based on structural difficulty metrics, accelerating cross-lingual alignment and geometric space optimization. 
 
+### 🚀 Key Core Contributions
 
+* **Custom Architecture from Scratch:** Complete PyTorch implementation of a lightweight Transformer encoder optimized specifically for minimal memory foot-prints without compromising hidden-state expressiveness.
+* **Deterministic Curriculum Scheduler:** A structured text-difficulty metric scheduling framework based on length dynamics, vocabulary rarity, and syntax features.
+* **Optimized Low-Resource Pretraining Pipeline:** A highly efficient Python, PyArrow, and Parquet data stream processing layer designed to minimize disk I/O and RAM overhead.
 
-**This project presents an end-to-end implementation of multilingual representation learning using a \*\*custom Transformer architecture\*\* trained from scratch on a subset of the \*\*CulturaX multilingual corpus\*\*. The work focuses on developing an efficient pretraining pipeline for multilingual language modeling under \*\*resource-constrained environments\*\*, where GPU memory, storage, and compute resources are limited.**
+### 🔬 2. Theoretical Foundations & Algorithmic Mechanics
 
+### 🔹 A. Masked Language Modeling (MLM)
 
+The core self-supervised objective follows a strict bidirectional token prediction framework. Given a multilingual sequence 
+𝑋
 
-**Instead of relying on large pretrained language models, this project designs and trains a lightweight Transformer encoder using \*\*Masked Language Modeling (MLM)\*\* as the self-supervised learning objective. To improve convergence and multilingual knowledge acquisition, \*\*Curriculum Learning\*\* is incorporated by progressively exposing the model to increasingly complex multilingual text samples.**
+=
 
+(
 
+𝑥1
 
-**The complete pipeline includes multilingual data preprocessing, tokenizer construction, curriculum-based data scheduling, Transformer model implementation, masked language modeling, training, evaluation, and multilingual embedding generation.**
+,
 
+𝑥2
 
+,
 
-**---**
+…
 
+,
 
+𝑥𝑛
 
-**# 🎯 Objectives**
+)
+, a subset of tokens Y ⊂ X is replaced with a special [MASK] token (15% corruption rate). The objective function minimizes the cross-entropy loss over the masked positions: 
 
+LMLM(θ)=−∑i∈YlogP(xi∣X∖Y;θ)script cap L sub MLM end-sub open paren theta close paren equals negative sum over i is an element of cap Y of log cap P open paren x sub i divides cap X sub ∖ cap Y end-sub ; theta close paren
+ℒMLM(𝜃)=−𝑖∈𝑌log𝑃(𝑥𝑖∣𝑋∖𝑌;𝜃)
+ 
 
+### 🔹 B. Curriculum Learning Framework
 
-**- Develop a lightweight multilingual Transformer from scratch.**
+To enforce a progressive learning trajectory, the data loader organizes data into discrete complexity tiers. The difficulty metric 
+𝒟
 
-**- Train using Masked Language Modeling (MLM).**
+(
 
-**- Implement Curriculum Learning for efficient pretraining.**
+𝑆
 
-**- Learn multilingual representations under limited computational resources.**
+)
+ for a text sample S is computed using a multi-factor heuristic balancing: 
 
-**- Evaluate representation quality across multiple languages.**
+1. **Sequence Length:** |S|
+2. **Token Rarity Profile:** The ratio of low-frequency tokens within the dynamic vocabulary matrix.
 
-**- Build a reproducible Transformer pretraining pipeline.**
+The dataset is partitioned into K stages. As training epochs cross defined loss-convergence thresholds, the scheduler expands the sampling distribution to include higher difficulty tiers: 
 
+Dallowed(t)=f(Epoch,Lval)script cap D sub allowed end-sub open paren t close paren equals f of open paren Epoch comma script cap L sub val end-sub close paren
+𝒟allowed(𝑡)=𝑓(Epoch,ℒval)
+ 
 
+### 🛠️ 3. Technical Specifications & Architecture
 
-**---**
+### 📊 Model Hyperparameters
 
+The structural layout of the custom mini-transformer is built to control token-embedding blowup while keeping multi-head representations rich: 
 
+Component / LayerArchitectural SpecificationAcademic Justification
+****Model Type****
+Transformer EncoderBidirectional contextual extraction
+****Embedding Dimension (
 
-**# 📂 Dataset**
+dmodeld sub model end-sub
+𝑑model
+)****
+*e.g., 256 / 512*Prevents over-parameterization
+****Feed-Forward Network (
 
+dffd sub ff end-sub
+𝑑ff
+)****
+*e.g., 1024 / 2048*Maintains non-linear projection capability
+****Attention Heads (
 
+nheadsn sub heads end-sub
+𝑛heads
+)****
+*e.g., 8*Sub-space tracking across diverse language sets
+****Encoder Layers (N)****
+*e.g., 6*Balances deep representation vs memory footprint
+****Vocabulary Bounds****
+*e.g., 32,000 / 52,000*Constrains the heavy weight of the token embedding layer
 
-**The project utilizes a subset of the \*\*CulturaX multilingual corpus\*\*.**
+### 🌍 Data Footprint (CulturaX Subset)
 
+The training partition is built from high-quality deduplicated subsets extracted from the **CulturaX Multilingual Corpus**, balancing geographic and morphological language variants: 
 
+* **High-Resource Anchor:** English (EN)
+* **Indo-Aryan/Dravidian Space:** Hindi (HI), Telugu (TE)
+* **Morphologically Rich / Low-Resource Target:** Afrikaans (AF)
 
-**Languages included:**
+### 📂 4. System Architecture & Repository Layout
 
+text
 
+Resource-Constrained-Multilingual-Representation-Learning/
+├── notebooks/                # Exploratory Data Analysis & pilot scaling tests
+├── preprocessing/            # PyArrow & Parquet pipeline for text cleaning and Unicode handling
+├── tokenizer/                # Custom subword tokenizer build scripts & vocab artifacts
+├── curriculum_learning/      # Algorithmic difficulty scoring matrices & scheduling modules
+├── transformer/              # Native PyTorch module blocks (Attention, FFN, EncoderLayer)
+├── training/                 # MLM loop, optimization scheduling, and gradient management
+├── evaluation/               # Validation scripts, embedding geometry, and downstream probes
+├── requirements.txt          # Explicit package version lockfile
+└── README.md                 # Project documentation
 
-**- English**
+Use code with caution.
 
-**- Hindi**
+### 🚀 5. Getting Started & Reproducibility
 
-**- Telugu**
+### 1. Environment Instantiation
 
-**- Afrikaans**
+Isolate the execution framework inside a clean Python virtual environment or conda container: 
 
+bash
 
+git clone https://github.com/kasinasaaket/Culturax.git
+cd Culturax
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
-**Only a subset of the complete CulturaX dataset was used to enable efficient experimentation in a resource-constrained environment.**
+Use code with caution.
 
+### 2. Execution Pipeline
 
+* **Phase 1: High-Performance Data Extraction & Normalization**
+Extracts raw text streams, enforces rigorous Unicode normalization, and compiles the memory-mapped Parquet corpus tables: 
 
-**---**
+bash
 
+python preprocessing/run_pipeline.py --languages en hi te af --output_dir ./data/processed
 
+Use code with caution.
+* **Phase 2: Tokenizer Vocabulary Compilation**
+Trains a high-density subword tokenizer explicitly optimized to treat multilingual tokens without vocabulary dispersion: 
 
-**# 🛠 Technologies Used**
+bash
 
+python tokenizer/train_tokenizer.py --input_dir ./data/processed --vocab_size 32000
 
+Use code with caution.
+* **Phase 3: Curriculum Pretraining Pipeline**
+Launches the core training network, passing parameters directly to the deterministic difficulty step manager: 
 
-**- Python**
+bash
 
-**- PyTorch**
+python training/run_pretrain.py \
+  --config config/mini_transformer.json \
+  --use_curriculum True \
+  --gradient_accumulation_steps 4 \
+  --fp16 True
 
-**- Hugging Face Datasets**
+Use code with caution.
 
-**- Transformers**
+### 📈 6. Quantitative Evaluation Metrics
 
-**- Tokenizers**
+*To thoroughly satisfy thesis validation requirements, the model performance metrics are benchmarked using strict tracking coordinates:* 
 
-**- PyArrow**
+### A. Pretraining Convergence Profile
 
-**- Pandas**
+text
 
-**- NumPy**
+[Insert empirical loss/perplexity curve plotting Curriculum Learning vs. Uniform Baseline here]
 
-**- Jupyter Notebook**
+Use code with caution.
 
+### B. Computational Benchmarks & Throughput
 
+Training StrategyPeak VRAM Usage (MB)Tokens/SecConvergence Epoch (
+𝐿val
 
-**---**
+≤𝜏
+)
+****Uniform Baseline****
+*e.g., 7800 MB**e.g., 45k**e.g., Epoch 42*
+****Curriculum Learning (Ours)****
+**e.g., 4200 MB****e.g., 68k****e.g., Epoch 26**
 
+### 🔮 7. Advanced Research Vectors & Future Enhancements
 
+* Incorporating **Byte-Pair Encoding (BPE)** variants and **SentencePiece** tokenization paradigms to scale zero-shot target language vocab injection.
+* Implementation of **Mixed-Precision (FP16/BF16)** numerical scaling and **Distributed Data Parallel (DDP)** protocols for scalable computing matrices.
+* Downstream evaluation probing across zero-shot cross-lingual text classification and Named Entity Recognition (NER) benchmarks.
 
-**# 🧠 Model Architecture**
+### 📚 8. Learning Outcomes & Domain Competencies
 
+* **Advanced Deep Learning Systems Architecture:** Custom design and parameter modeling of neural attention matrices from fundamental matrix blocks.
+* **Low-Resource Machine Learning Engineering:** Strategic memory control, gradient step allocation, and dataset optimization.
+* **Multilingual Natural Language Processing:** Practical experience manipulating deduplicated international web-scale crawl data (CulturaX).
 
+### 👨‍💻 Author Info & Academic Affiliation
 
-**A custom lightweight Transformer encoder was implemented from scratch.**
+**Kasina Saaket** 
 
+* **Institution:** *[Insert your University / College Name here]*
+* **GitHub Profile:** [@kasinasaaket](https://github.com/kasinasaaket)
+* **Professional Network:** [LinkedIn Profile](https://linkedin.com/in/kasina-saaket-448442296)
 
+### 📑 9. Citation (BibTeX)
 
-**The architecture consists of:**
+If you utilize this custom architecture framework or the curriculum data scheduler in your academic research, please cite this work as follows: 
 
+bibtex
 
+@mastersthesis{kasinasaaket2026multilingual,
+  author    = {Kasina Saaket},
+  title     = {Resource-Constrained Multilingual Representation Learning using a Custom Transformer Architecture on the CulturaX Corpus},
+  school    = {[Insert University/College Name]},
+  year      = {2026},
+  month     = {September},
+  note      = {MTech First Year Major Thesis Project}
+}
 
-**- Token Embedding Layer**
-
-**- Positional Encoding**
-
-**- Multi-Head Self Attention**
-
-**- Feed Forward Network**
-
-**- Layer Normalization**
-
-**- Residual Connections**
-
-**- Output Projection Layer**
-
-
-
-**The model was optimized for efficient multilingual representation learning under limited hardware resources.**
-
-
-
-**---**
-
-
-
-**# 🔄 End-to-End Pipeline**
-
-
-
-**## 1. Dataset Collection**
-
-
-
-**- Download CulturaX subset**
-
-**- Select multilingual samples**
-
-**- Convert Arrow files into Parquet**
-
-**- Language-wise filtering**
-
-
-
-**## 2. Data Preprocessing**
-
-
-
-**- Text cleaning**
-
-**- Unicode normalization**
-
-**- Language balancing**
-
-**- Sequence generation**
-
-**- Tokenization**
-
-**- Vocabulary construction**
-
-
-
-**## 3. Curriculum Learning**
-
-
-
-**The training corpus was organized according to curriculum learning principles.**
-
-
-
-**The model was gradually exposed to increasingly difficult multilingual text, improving convergence and representation quality.**
-
-
-
-**## 4. Masked Language Modeling**
-
-
-
-**Masked Language Modeling (MLM) was used as the self-supervised learning objective.**
-
-
-
-**Random tokens were masked, and the Transformer learned to predict the missing tokens from surrounding context.**
-
-
-
-**## 5. Custom Transformer Training**
-
-
-
-**The lightweight Transformer model was trained from scratch using:**
-
-
-
-**- Mini-batch training**
-
-**- Adam optimizer**
-
-**- Learning rate scheduling**
-
-**- Gradient updates**
-
-
-
-**## 6. Representation Learning**
-
-
-
-**The trained encoder generated contextual multilingual representations suitable for downstream NLP tasks.**
-
-
-
-**## 7. Evaluation**
-
-
-
-**The pretrained model was evaluated by monitoring:**
-
-
-
-**- Training Loss**
-
-**- Validation Loss**
-
-**- MLM Prediction Accuracy**
-
-**- Learning Curves**
-
-
-
-**---**
-
-
-
-**# 🚀 Key Features**
-
-
-
-**- Custom Transformer implementation**
-
-**- Curriculum Learning**
-
-**- Masked Language Modeling**
-
-**- Multilingual representation learning**
-
-**- Lightweight architecture**
-
-**- Resource-constrained training**
-
-**- Efficient preprocessing pipeline**
-
-**- End-to-end implementation**
-
-
-
-**---**
-
-
-
-**# 📁 Project Structure**
-
-
-
-**```**
-
-**Resource-Constrained-Multilingual-Representation-Learning/**
-
-**│**
-
-**├── notebooks/**
-
-**├── tokenizer/**
-
-**├── transformer/**
-
-**├── preprocessing/**
-
-**├── curriculum\_learning/**
-
-**├── training/**
-
-**├── evaluation/**
-
-**├── README.md**
-
-**├── requirements.txt**
-
-**└── .gitignore**
-
-**```**
-
-
-
-**---**
-
-
-
-**# 📈 Results**
-
-
-
-**The project successfully demonstrated that a lightweight custom Transformer can learn meaningful multilingual representations from a subset of the CulturaX corpus using curriculum learning and masked language modeling while operating under limited computational resources.**
-
-
-
-**---**
-
-
-
-**# 🔮 Future Work**
-
-
-
-**- Larger multilingual corpus**
-
-**- Byte Pair Encoding (BPE)**
-
-**- SentencePiece tokenizer**
-
-**- Mixed precision training**
-
-**- Distributed training**
-
-**- Larger Transformer architectures**
-
-**- Fine-tuning on downstream NLP tasks**
-
-
-
-**---**
-
-
-
-**# 📚 Learning Outcomes**
-
-
-
-**- Transformer Architecture**
-
-**- Self-Supervised Learning**
-
-**- Masked Language Modeling**
-
-**- Curriculum Learning**
-
-**- Representation Learning**
-
-**- Multilingual NLP**
-
-**- Efficient Deep Learning**
-
-**- Resource-Constrained AI**
-
-
-
-**---**
-
-
-
-**# 👨‍💻 Author**
-
-
-
-**\*\*Kasina Saaket\*\***
-
-
-
-**- GitHub: https://github.com/kasinasaaket**
-
-**- LinkedIn: https://linkedin.com/in/kasina-saaket-448442296**
-
-
-
-**---**
-
-
-
-**## ⭐ If you found this project useful, consider giving it a Star!**
-
+Use code with caution.
