@@ -17,43 +17,14 @@ We design, implement, and train a lightweight **Transformer Encoder architecture
 ### 🔹 A. Masked Language Modeling (MLM)
 
 The core self-supervised objective follows a strict bidirectional token prediction framework. Given a multilingual sequence 
-𝑋
+𝑋 = (𝑥1, 𝑥2, …, 𝑥𝑛), a subset of tokens Y ⊂ X is replaced with a special [MASK] token (15% corruption rate). The objective function minimizes the cross-entropy loss over the masked positions: 
 
-=
-
-(
-
-𝑥1
-
-,
-
-𝑥2
-
-,
-
-…
-
-,
-
-𝑥𝑛
-
-)
-, a subset of tokens Y ⊂ X is replaced with a special [MASK] token (15% corruption rate). The objective function minimizes the cross-entropy loss over the masked positions: 
-
-LMLM(θ)=−∑i∈YlogP(xi∣X∖Y;θ)script cap L sub MLM end-sub open paren theta close paren equals negative sum over i is an element of cap Y of log cap P open paren x sub i divides cap X sub ∖ cap Y end-sub ; theta close paren
 ℒMLM(𝜃)=−𝑖∈𝑌log𝑃(𝑥𝑖∣𝑋∖𝑌;𝜃)
  
 
 ### 🔹 B. Curriculum Learning Framework
 
-To enforce a progressive learning trajectory, the data loader organizes data into discrete complexity tiers. The difficulty metric 
-𝒟
-
-(
-
-𝑆
-
-)
+To enforce a progressive learning trajectory, the data loader organizes data into discrete complexity tiers. The difficulty metric 𝒟(𝑆)
  for a text sample S is computed using a multi-factor heuristic balancing: 
 
 1. **Sequence Length:** |S|
@@ -61,8 +32,8 @@ To enforce a progressive learning trajectory, the data loader organizes data int
 
 The dataset is partitioned into K stages. As training epochs cross defined loss-convergence thresholds, the scheduler expands the sampling distribution to include higher difficulty tiers: 
 
-Dallowed(t)=f(Epoch,Lval)script cap D sub allowed end-sub open paren t close paren equals f of open paren Epoch comma script cap L sub val end-sub close paren
-𝒟allowed(𝑡)=𝑓(Epoch,ℒval)
+𝒟allowed(𝑡)=𝑓(Epoch,ℒval) script cap D sub allowed end-sub open paren t close paren equals f of open paren Epoch comma script cap L sub val end-sub close paren
+
  
 
 ### 🛠️ 3. Technical Specifications & Architecture
