@@ -166,11 +166,11 @@ Training StrategyPeak VRAM Usage (MB)Tokens/SecConvergence Epoch (
 
 ### 👨‍💻 Author Info & Academic Affiliation
 
-**Kasina Saaket** 
-
-* **Institution:** *[Insert your University / College Name here]*
+**Kasina Saaket**  
+* **Institution:** GITAM School of Technology, Hyderabad
 * **GitHub Profile:** [@kasinasaaket](https://github.com/kasinasaaket)
 * **Professional Network:** [LinkedIn Profile](https://linkedin.com/in/kasina-saaket-448442296)
+
 
 ### 📑 9. Citation (BibTeX)
 
