@@ -32,7 +32,9 @@ To enforce a progressive learning trajectory, the data loader organizes data int
 
 The dataset is partitioned into K stages. As training epochs cross defined loss-convergence thresholds, the scheduler expands the sampling distribution to include higher difficulty tiers: 
 
-$$\mathcal{D}_{\text{allowed}}(t) = f(\text{Epoch}, \mathcal{L}_{\text{val}})$$  script cap D sub allowed end-sub open paren t close paren equals f of open paren Epoch comma script cap L sub val end-sub close paren
+$$\mathcal{D}_{\text{allowed}}(t) = f(\text{Epoch}, \mathcal{L}_{\text{val}})$$  
+
+script cap D sub allowed end-sub open paren t close paren equals f of open paren Epoch comma script cap L sub val end-sub close paren
 
  
 
