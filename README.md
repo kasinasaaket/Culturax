@@ -168,7 +168,7 @@ Training StrategyPeak VRAM Usage (MB)Tokens/SecConvergence Epoch (
 
 **Kasina Saaket**  
 * **Institution:** GITAM School of Technology, Hyderabad
-* **GitHub Profile:** [@kasinasaaket](https://github.com/kasinasaaket)
+* **GitHub Profile:** [@kasinasaaket](https://github.com/kasinasaaket) 
 * **Professional Network:** [LinkedIn Profile](https://linkedin.com/in/kasina-saaket-448442296)
 
 
